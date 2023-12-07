@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: 100px;
+        }
+        .prodName {
+            height: 50px;
+        }
+        .button {
+            background-color: rgb(132, 132, 255);
+            color: aliceblue;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <a href="./feedbacks.html">Посмотреть все отзывы на товары</a>
+    <input type="text" class="prodName" placeholder="Введите название продукта">
+    <textarea class="feedback" placeholder="Введите отзыв"></textarea>
+    <button class="button">Добавить отзыв</button>
+<script>
+/* Создайте интерактивную веб-страницу для оставления и просмотра отзывов о продуктах. Пользователи могут добавлять отзывы о различных продуктах и просматривать добавленные отзывы.
+Страница добавления отзыва:
+Поле для ввода названия продукта.
+Текстовое поле для самого отзыва.
+Кнопка "Добавить отзыв", которая сохраняет отзыв о продукте в LocalStorage.
+Страница просмотра отзывов:
+Показывает список всех продуктов, о которых были оставлены отзывы.
+При клике на название продукта отображается список всех отзывов по этому продукту.
+Возможность удаления отзыва (при нажатии на кнопку "Удалить" рядом с отзывом, данный отзыв удаляется из LocalStorage). */
+
+// Ловим кнопку и добавляем событие click
+document.querySelector('.button').addEventListener('click', () => {
+    // Записываем в переменную значение поля ввода (Продукт)
+    const productName = document.querySelector('.prodName').value;
+    // Записываем в переменную значение поля ввода (Отзыв)
+    const feedback = document.querySelector('.feedback').value;
+    // Если поле ввода продукта и поле ввода отзыва не пустые
+    if (productName !== '' && feedback !== '') {
+        if(localStorage.getItem('feedbacks')) {
+            const feedbacks = JSON.parse(localStorage.getItem('feedbacks'));
+            console.log(feedbacks);
+            for (const key in feedbacks) {
+                if (feedbacks.hasOwnProperty(productName)) {
+                    feedbacks[key].push(feedback);
+                    console.log('Иф прошел');
+                    return addFeedback(feedbacks);
+                    console.log(feedbacks);
+                } else {
+                    feedbacks[productName] = [];
+                    feedbacks[productName].push(feedback);
+                    return addFeedback(feedbacks);
+                    console.log('Иф не прошел');
+                }
+            }
+        } else {
+            const feedbacks = {};
+            feedbacks[productName] = [];
+            feedbacks[productName].push(feedback);
+            addFeedback(feedbacks);
+        }
+    }
+});
+
+function addFeedback(feedbacks) {
+    document.querySelector('.prodName').value = '';
+    document.querySelector('.feedback').value = '';
+    return localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+}
+</script>
+</body>
+</html>

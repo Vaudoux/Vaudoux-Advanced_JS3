@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="./index.html">Добавить отзыв о товаре</a>
+    <div class="products"></div>    
+    <script>
+        //Добавление товара
+        const products = document.querySelector('.products');
+        const feedbacks = JSON.parse(localStorage.getItem('feedbacks'));
+        for (const key in feedbacks) {
+            const webNameProduct = `<div class="product"><h3 class="prodName">${key}</h3><div class="feedbacks" id="${key}"></div></div>`;
+            console.log(webNameProduct);
+            products.insertAdjacentHTML('beforeend', webNameProduct);
+
+            // Добавление отзывов о товаре
+            for (const el of feedbacks[key]) {
+                const feedback = document.querySelector(`#${key}`);
+
+                const webFeedback = `
+                <p class='${feedbacks[key].indexOf(el)}'> ${el} <button class="remove" onclick="removeFeedbacks(this)">Удалить</button></p>
+                `;
+                feedback.insertAdjacentHTML('beforeend', webFeedback);
+            }
+        }
+        const a = [];
+        a.indexOf();
+
+        // Удаленеие отзыва
+        function removeFeedbacks(el) {
+            for (const elem in feedbacks) {
+                if (elem === el.parentNode.parentNode.id) {
+                    const element = feedbacks[elem];
+                    
+                    feedbacks[elem].splice(el.parentNode.className, 1);
+                    localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+                    return el.parentNode.remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
